@@ -7,14 +7,16 @@
         <img src="../assets/img/logo.png" alt="logo" class="h-12">
       </nuxt-link>
 
-      <a href="#"@click="mobileOpen = !mobileOpen" class="lg:hidden ml-auto">
-        open
+      <a href="#" @click="mobileOpen = !mobileOpen" class="lg:hidden ml-auto justify-center flex flex-col relative w-8 h-8">
+        <span class="bg-blue-700 h-1 w-8 rounded mb-1" :class="{'transform absolute right-0 rotate-45': mobileOpen}"></span>
+        <span class="bg-blue-700 h-1 w-8 rounded mb-1" :class="{'transform  -rotate-45 absolute right-0': mobileOpen}"></span>
+        <span class="bg-blue-700 h-1 w-8 rounded mb-1" :class="{'hidden': mobileOpen}"></span>
       </a>
 
       <div class="w-full flex "
-      :class="{'hidden lg:flex': !mobileOpen, 'mt-8': mobileOpen}">
+           :class="{'hidden lg:flex': !mobileOpen, 'mt-8': mobileOpen}">
         <ul class="lg:h-24 lg:flex items-center w-full lg:w-auto">
-          <li >
+          <li>
             <nuxt-link class="text-lg text-gray-700 lg:py-8 lg:px-4"
                        :to="{name: 'home'}"
             >
