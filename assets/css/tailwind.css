@@ -11,9 +11,8 @@ h1, h2, h3, h4, h5, h6{
 }
 
 a{
-  @apple text-blue-500;
+  @apply text-blue-500;
 }
-
 
 p{
   @apply text-gray-600 mb-6 leading-relaxed;
