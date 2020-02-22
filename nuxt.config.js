@@ -1,3 +1,6 @@
+let env = require('dotenv').config();
+
+// console.log(env.parsed);
 
 export default {
   mode: 'universal',
