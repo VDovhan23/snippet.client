@@ -48,10 +48,11 @@
               </nuxt-link>
             </li>
             <li>
-              <nuxt-link class="text-lg text-gray-700 lg:py-8 lg:px-4"
-                         :to="{name: 'index'}"
-              >Logout
-              </nuxt-link>
+              <a class="text-lg text-gray-700 lg:py-8 lg:px-4"
+                 @click.prevent="logout()"
+              >
+                Logout
+              </a>
             </li>
           </template>
           <template v-else>
@@ -78,6 +79,11 @@
     data() {
       return {
         mobileOpen: false
+      }
+    },
+    methods: {
+     async logout() {
+        await this.$auth.logout()
       }
     },
   }

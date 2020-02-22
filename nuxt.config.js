@@ -70,6 +70,10 @@ export default {
             url: 'auth/me',
             method: 'post',
             propertyName: 'data'
+          },
+          logout: {
+            url: 'auth/login',
+            method: 'post'
           }
         }
       },
