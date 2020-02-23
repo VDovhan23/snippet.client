@@ -9,5 +9,11 @@
 
 export default {
 
+  head(){
+    return {
+      title: 'Snippets tutorial',
+      titleTemplate: null
+    }
+  }
 }
 </script>
