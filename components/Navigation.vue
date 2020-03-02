@@ -1,10 +1,10 @@
 <template>
-  <div class="flex items-center bg-white py-8 lg:py-0">
+  <div class="flex items-center bg-white py-3 lg:py-0">
     <div class="container flex items-center flex-wrap lg:flex-no-wrap">
       <nuxt-link class="mr-10 flex-shrink-0"
                  :to="{name: 'index'}"
       >
-        <img src="../assets/img/logo.png" alt="logo" class="h-12">
+        <h1 class="text-blue-600 text-4xl font-header">Snippets</h1>
       </nuxt-link>
 
       <a href="#" @click="mobileOpen = !mobileOpen" class="lg:hidden ml-auto justify-center flex flex-col relative w-8 h-8">
