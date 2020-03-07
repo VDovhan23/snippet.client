@@ -6,7 +6,9 @@
           <input type="text"
                  class="text-4xl font-header text-gray-700 border-gray-400 font-medium leading-tight mb-8 w-full block p-2 border-2 rounded border-dashed"
                  value=""
-                 placeholder="Add title">
+                 placeholder="Add title"
+                 v-model="snippet.title"
+          >
 
           <div class="text-gray-600"> Created by
             <nuxt-link
@@ -139,7 +141,21 @@
 
 <script>
   export default {
-    name: "edit"
+    data() {
+      return {
+        snippet: null,
+        steps: []
+      }
+    },
+
+    async asyncData({app, params}) {
+      let snippet = await app.$axios.$get(`snippets/${params.id}`)
+
+      return {
+        snippet : snippet.data,
+        steps : snippet.data.steps.data
+      }
+    }
   }
 </script>
 
