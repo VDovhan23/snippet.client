@@ -33,6 +33,7 @@
                p-2 border-2 rounded border-dashed"
                value="Step Title"
                placeholder="Add step title"
+               v-model="currentStep.title"
 
         >
       </div>
@@ -67,7 +68,7 @@
         </div>
 
         <div class="w-full lg:mx-2">
-          <textarea class="w-full mb-6 border-dashed border-2 border-gray-400"></textarea>
+          <textarea class="w-full mb-6 border-dashed border-2 border-gray-400"  v-model="currentStep.body"></textarea>
           <div class="bg-white p-8 rounded-lg text-gray-600 ">
             Markdown content
           </div>
@@ -114,11 +115,11 @@
             Steps
           </h1>
           <ul>
-            <li v-for="(step, index) in 5"
+            <li v-for="(step, index) in orderedStepsAsc"
                 class="mb-1"
                 :key="index">
-              <nuxt-link :to="{}" :class="{'font-bold' : index === 0}">
-                {{index + 1}}. Step title
+              <nuxt-link :to="{}" :class="{'font-bold' : step.uuid === currentStep.uuid}">
+                {{index + 1}}. {{step.title}}
               </nuxt-link>
             </li>
           </ul>
@@ -133,6 +134,8 @@
           <div class="inline-block px-2 leading-relaxed text-gray-600 rounded bg-gray-400 text-sm">Left or Right</div>
           to navigate between steps
         </div>
+
+        {{currentStep}}
       </div>
     </div>
 
@@ -140,12 +143,28 @@
 </template>
 
 <script>
+  import {orderBy as _orderBy} from 'lodash'
   export default {
     data() {
       return {
         snippet: null,
         steps: []
       }
+    },
+    computed: {
+      orderedStepsAsc() {
+        return _orderBy( this.steps, 'order', 'asc');
+      },
+
+      firstStep(){
+        return this.orderedStepsAsc[0]
+      },
+      currentStep(){
+        return  this.orderedStepsAsc.find(
+          (s)=> s.uuid === this.$route.query.step
+        ) || this.firstStep
+      }
+
     },
 
     async asyncData({app, params}) {
