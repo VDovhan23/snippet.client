@@ -119,7 +119,7 @@
                 class="mb-1"
                 :key="index">
               <nuxt-link :to="{}" :class="{'font-bold' : step.uuid === currentStep.uuid}">
-                {{index + 1}}. {{step.title}}
+                {{index + 1}}. {{step.title || 'Untitled step'}}
               </nuxt-link>
             </li>
           </ul>
@@ -146,6 +146,12 @@
   import {orderBy as _orderBy} from 'lodash'
   import {debounce as _debounce} from 'lodash'
   export default {
+    head(){
+      return {
+        title: `Edit ${this.snippet.title || 'Untitled snippet'}`
+      }
+    },
+
     data() {
       return {
         snippet: null,
@@ -165,7 +171,6 @@
           (s)=> s.uuid === this.$route.query.step
         ) || this.firstStep
       }
-
     },
 
     watch: {
