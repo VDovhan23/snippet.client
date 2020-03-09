@@ -114,15 +114,7 @@
           <h1 class="text-xl text-gray-600 mb-6 font-medium">
             Steps
           </h1>
-          <ul>
-            <li v-for="(step, index) in orderedStepsAsc"
-                class="mb-1"
-                :key="index">
-              <nuxt-link :to="{}" :class="{'font-bold' : step.uuid === currentStep.uuid}">
-                {{index + 1}}. {{step.title || 'Untitled step'}}
-              </nuxt-link>
-            </li>
-          </ul>
+          <StepList :steps="orderedStepsAsc" :currentStep="currentStep" />
         </div>
 
         <div class="text-gray-500 text-sm">
@@ -145,7 +137,11 @@
 <script>
   import {orderBy as _orderBy} from 'lodash'
   import {debounce as _debounce} from 'lodash'
+  import StepList from "./components/StepList";
+
   export default {
+    components: {StepList},
+    comments: {StepList},
     head(){
       return {
         title: `Edit ${this.snippet.title || 'Untitled snippet'}`
