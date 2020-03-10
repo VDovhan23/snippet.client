@@ -24,8 +24,10 @@
 
       <div class="flex items-center mb-6 ">
         <div class="text-xl text-gray-600 font-medium mr-3">
-          1/1.
+          {{currentStepIndex + 1}}/{{steps.length}}.
         </div>
+
+
 
         <input type="text"
                name=""
@@ -169,6 +171,12 @@
       },
       orderedStepsDesc() {
         return _orderBy( this.steps, 'order', 'desc');
+      },
+
+      currentStepIndex(){
+        return this.orderedStepsAsc.map(
+          (s)=>s.uuid
+        ).indexOf(this.currentStep.uuid)
       },
 
       firstStep(){

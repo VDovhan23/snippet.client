@@ -18,7 +18,7 @@
     </div>
     <div class="container">
       <h1 class="text-xl text-gray-600 mb-6 font-medium">
-        1/1. {{currentStep.title}}
+        {{currentStepIndex + 1}}/{{steps.length}}. {{currentStep.title}}
       </h1>
     </div>
     <div class="flex flex-wrap lg:flex-no-wrap container">
@@ -26,12 +26,15 @@
         class="w-full lg:8/12 lg:mr-16 flex flex-wrap lg:flex-no-wrap justify-between items-start mb-8">
 
         <div class="order-first">
-          <nuxt-link :to="{}" class="block mb-2 p-3 bg-blue-500 rounded-lg ">
+          <StepNavButton
+            :step="prevStep"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" class="fill-current text-white h-6 w-6">
               <path d="M0 0h24v24H0z" fill="none"/>
               <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
             </svg>
-          </nuxt-link>
+          </StepNavButton>
+
         </div>
 
         <div class="bg-white p-8 rounded-lg text-gray-600 w-full lg:mx-2">
@@ -39,14 +42,20 @@
         </div>
 
         <div class="order-first lg:flex-col lg:order-last flex flex-row">
-          <nuxt-link :to="{}" class="block mb-2 p-3 bg-blue-500 rounded-lg ">
+          <StepNavButton
+            :step="nextStep"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" class="fill-current text-white h-6 w-6">
               <path d="M0 0h24v24H0z" fill="none"/>
               <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
             </svg>
-          </nuxt-link>
+          </StepNavButton>
 
-          <nuxt-link :to="{}"
+          <nuxt-link :to="{
+            name: 'snippets-id-edit',
+            params: {id: snippet.uuid},
+            query: {step: currentStep.uuid}
+          }"
                      class="block mb-2 p-3 bg-blue-500 rounded-lg  lg:order-last order-first mr-2 lg:mr-0"
                      title="Edit Step"
           >
@@ -76,10 +85,11 @@
 
 <script>
   import StepList from "./components/StepList";
+  import StepNavButton from "./components/StepNavButton";
   import {orderBy as _orderBy} from 'lodash'
   export default {
     name: "index",
-    components: {StepList},
+    components: {StepList, StepNavButton},
     data() {
       return {
         snippet: null,
@@ -88,8 +98,22 @@
     },
 
     computed: {
+      nextStep(){
+        return this.orderedStepsAsc.find(
+          (s) => s.order > this.currentStep.order
+        ) || null
+      },
+      prevStep(){
+        return this.orderedStepsDesc.find(
+          (s) => s.order < this.currentStep.order
+        ) || null
+      },
+
       orderedStepsAsc() {
         return _orderBy( this.steps, 'order', 'asc');
+      },
+      orderedStepsDesc() {
+        return _orderBy( this.steps, 'order', 'desc');
       },
 
       firstStep(){
@@ -99,6 +123,11 @@
         return  this.orderedStepsAsc.find(
           (s)=> s.uuid === this.$route.query.step
         ) || this.firstStep
+      },
+      currentStepIndex(){
+        return this.orderedStepsAsc.map(
+          (s)=>s.uuid
+        ).indexOf(this.currentStep.uuid)
       }
     },
 
