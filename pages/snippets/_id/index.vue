@@ -4,13 +4,13 @@
       <div class="container py-10 pb-16">
         <div class="snippet-title w-10/12">
           <h1 class="text-4xl text-gray-700 font-medium leading-tight mb-8">
-            Snippet Title
+            {{snippet.title}}
           </h1>
           <div class="text-gray-600"> Created by
             <nuxt-link
               :to="{}"
             >
-              Someone
+              {{snippet.author.data.name}}
             </nuxt-link>
           </div>
         </div>
@@ -18,7 +18,7 @@
     </div>
     <div class="container">
       <h1 class="text-xl text-gray-600 mb-6 font-medium">
-        1/1. Step Title
+        1/1. {{currentStep.title}}
       </h1>
     </div>
     <div class="flex flex-wrap lg:flex-no-wrap container">
@@ -35,7 +35,7 @@
         </div>
 
         <div class="bg-white p-8 rounded-lg text-gray-600 w-full lg:mx-2">
-          Markdown
+          {{currentStep.body}}
         </div>
 
         <div class="order-first lg:flex-col lg:order-last flex flex-row">
@@ -62,15 +62,7 @@
           <h1 class="text-xl text-gray-600 mb-6 font-medium">
             Steps
           </h1>
-          <ul>
-            <li v-for="(step, index) in 5"
-                class="mb-1"
-                :key="index">
-              <nuxt-link :to="{}" :class="{'font-bold' : index === 0}">
-               {{index + 1}}. Step title
-              </nuxt-link>
-            </li>
-          </ul>
+          <StepList :steps="steps" :current-step="currentStep"> </StepList>
         </div>
 
         <div class="text-gray-500 text-sm">
@@ -83,8 +75,47 @@
 </template>
 
 <script>
+  import StepList from "./components/StepList";
+  import {orderBy as _orderBy} from 'lodash'
   export default {
-    name: "index"
+    name: "index",
+    components: {StepList},
+    data() {
+      return {
+        snippet: null,
+        steps: []
+      }
+    },
+
+    computed: {
+      orderedStepsAsc() {
+        return _orderBy( this.steps, 'order', 'asc');
+      },
+
+      firstStep(){
+        return this.orderedStepsAsc[0]
+      },
+      currentStep(){
+        return  this.orderedStepsAsc.find(
+          (s)=> s.uuid === this.$route.query.step
+        ) || this.firstStep
+      }
+    },
+
+    head(){
+      return {
+        title: `${this.snippet.title || 'Untitled snippet'}`
+      }
+    },
+
+    async asyncData({app, params}) {
+      let snippet = await app.$axios.$get(`snippets/${params.id}`);
+
+      return {
+        snippet : snippet.data,
+        steps : snippet.data.steps.data
+      }
+    }
   }
 </script>
 

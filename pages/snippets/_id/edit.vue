@@ -45,15 +45,16 @@
         class="w-full lg:8/12 lg:mr-16 flex flex-wrap lg:flex-no-wrap justify-between items-start mb-8">
 
         <div class="flex flex-row lg:flex-col mr-4 order-first">
-          <nuxt-link
-            :to="{}"
-            class="block mb-2 p-3 bg-blue-500 rounded-lg "
-            title="Prev Step">
+
+
+          <StepNavButton
+            :step="prevStep"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" class="fill-current text-white h-6 w-6">
               <path d="M0 0h24v24H0z" fill="none"/>
               <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
             </svg>
-          </nuxt-link>
+          </StepNavButton>
 
 
           <nuxt-link :to="{}"
@@ -75,16 +76,15 @@
         </div>
 
         <div class="order-first lg:flex-col lg:order-last flex flex-row">
-          <nuxt-link
-            :to="{}"
-            class="block mb-2 p-3 bg-blue-500 rounded-lg mr-2 lg:mr-0"
-            title="Next Step"
+
+          <StepNavButton
+            :step="nextStep"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="fill-current text-white h-6 w-6">
               <path d="M0 0h24v24H0z" fill="none"/>
               <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
             </svg>
-          </nuxt-link>
+          </StepNavButton>
 
           <nuxt-link
             :to="{}"
@@ -126,8 +126,6 @@
           <div class="inline-block px-2 leading-relaxed text-gray-600 rounded bg-gray-400 text-sm">Left or Right</div>
           to navigate between steps
         </div>
-
-        {{currentStep}}
       </div>
     </div>
 
@@ -138,10 +136,10 @@
   import {orderBy as _orderBy} from 'lodash'
   import {debounce as _debounce} from 'lodash'
   import StepList from "./components/StepList";
+  import StepNavButton from "./components/StepNavButton";
 
   export default {
-    components: {StepList},
-    comments: {StepList},
+    components: {StepList, StepNavButton},
     head(){
       return {
         title: `Edit ${this.snippet.title || 'Untitled snippet'}`
@@ -155,8 +153,22 @@
       }
     },
     computed: {
+      nextStep(){
+        return this.orderedStepsAsc.find(
+          (s) => s.order > this.currentStep.order
+        ) || null
+      },
+      prevStep(){
+        return this.orderedStepsDesc.find(
+          (s) => s.order < this.currentStep.order
+        ) || null
+      },
+
       orderedStepsAsc() {
         return _orderBy( this.steps, 'order', 'asc');
+      },
+      orderedStepsDesc() {
+        return _orderBy( this.steps, 'order', 'desc');
       },
 
       firstStep(){
