@@ -28,7 +28,6 @@
         </div>
 
 
-
         <input type="text"
                name=""
                class="w-full text-xl py-1 bg-transparent text-gray-600 border-gray-400 font-medium
@@ -39,7 +38,6 @@
 
         >
       </div>
-
 
 
     </div>
@@ -60,19 +58,17 @@
           </StepNavButton>
 
 
-          <nuxt-link :to="{}"
-                     class="block mb-2 p-3 bg-blue-500 rounded-lg  lg:order-last order-first mr-2 lg:mr-0"
-                     title="Add Step Before"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="fill-current text-white h-6 w-6">
-              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-              <path d="M0 0h24v24H0z" fill="none"/>
-            </svg>
-          </nuxt-link>
+          <add-step-button
+            :snippet="snippet"
+            :current-step="currentStep"
+            :position="'after'"
+            @added="handleStepAdded"
+          />
+
         </div>
 
         <div class="w-full lg:mx-2">
-          <textarea class="w-full mb-6 border-dashed border-2 border-gray-400"  v-model="currentStep.body"></textarea>
+          <textarea class="w-full mb-6 border-dashed border-2 border-gray-400" v-model="currentStep.body"></textarea>
           <div class="bg-white p-8 rounded-lg text-gray-600 ">
             Markdown content
           </div>
@@ -89,16 +85,12 @@
             </svg>
           </StepNavButton>
 
-          <nuxt-link
-            :to="{}"
-            class="block mb-2 p-3 bg-blue-500 rounded-lg  lg:order-last order-first mr-2 lg:mr-0"
-            title="Add Step After"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="fill-current text-white h-6 w-6">
-              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-              <path d="M0 0h24v24H0z" fill="none"/>
-            </svg>
-          </nuxt-link>
+          <add-step-button
+            :snippet="snippet"
+            :current-step="currentStep"
+            position='before'
+            @added="handleStepAdded"
+          />
 
           <nuxt-link
             :to="{}"
@@ -117,7 +109,12 @@
           <h1 class="text-xl text-gray-600 mb-6 font-medium">
             Steps
           </h1>
-          <StepList :steps="orderedStepsAsc" :currentStep="currentStep" />
+          <StepList
+            :steps="orderedStepsAsc"
+            :currentStep="currentStep"
+
+
+          />
         </div>
 
         <div class="text-gray-500 text-sm">
@@ -140,15 +137,16 @@
   import StepList from "./components/StepList";
   import StepNavButton from "./components/StepNavButton";
 
-   import BrouseSnippts from '@/mixins/snippets/BrouseSnippts'
+  import BrouseSnippts from '@/mixins/snippets/BrouseSnippts'
+  import AddStepButton from "./components/addStepButton";
 
   export default {
 
-     mixins:[
+    mixins: [
       BrouseSnippts
     ],
-    components: {StepList, StepNavButton},
-    head(){
+    components: {AddStepButton, StepList, StepNavButton},
+    head() {
       return {
         title: `Edit ${this.snippet.title || 'Untitled snippet'}`
       }
@@ -160,10 +158,8 @@
         steps: []
       }
     },
-
-
     watch: {
-      'snippet.title':{
+      'snippet.title': {
         handler: _debounce(async function (title) {
           await this.$axios.$patch(`snippets/${this.snippet.uuid}`, {
             title
@@ -171,7 +167,7 @@
         }, 500)
       },
 
-      currentStep:{
+      currentStep: {
         deep: true,
         handler: _debounce(async function (step) {
           await this.$axios.$patch(`snippets/${this.snippet.uuid}/steps/${step.uuid}`, {
@@ -184,15 +180,28 @@
     },
 
 
-
     async asyncData({app, params}) {
       let snippet = await app.$axios.$get(`snippets/${params.id}`);
 
       return {
-        snippet : snippet.data,
-        steps : snippet.data.steps.data
+        snippet: snippet.data,
+        steps: snippet.data.steps.data
       }
-    }
+    },
+    methods: {
+      handleStepAdded(step) {
+        this.steps.push(step);
+        this.goToStep(step)
+      },
+
+      goToStep(step){
+
+        console.log(step);
+        this.$router.push({
+          query:{step: step.uuid}
+        })
+      }
+    },
   }
 </script>
 
