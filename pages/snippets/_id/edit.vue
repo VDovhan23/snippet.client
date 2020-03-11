@@ -136,12 +136,17 @@
 </template>
 
 <script>
-  import {orderBy as _orderBy} from 'lodash'
   import {debounce as _debounce} from 'lodash'
   import StepList from "./components/StepList";
   import StepNavButton from "./components/StepNavButton";
 
+   import BrouseSnippts from '@/mixins/snippets/BrouseSnippts'
+
   export default {
+
+     mixins:[
+      BrouseSnippts
+    ],
     components: {StepList, StepNavButton},
     head(){
       return {
@@ -155,40 +160,7 @@
         steps: []
       }
     },
-    computed: {
-      nextStep(){
-        return this.orderedStepsAsc.find(
-          (s) => s.order > this.currentStep.order
-        ) || null
-      },
-      prevStep(){
-        return this.orderedStepsDesc.find(
-          (s) => s.order < this.currentStep.order
-        ) || null
-      },
 
-      orderedStepsAsc() {
-        return _orderBy( this.steps, 'order', 'asc');
-      },
-      orderedStepsDesc() {
-        return _orderBy( this.steps, 'order', 'desc');
-      },
-
-      currentStepIndex(){
-        return this.orderedStepsAsc.map(
-          (s)=>s.uuid
-        ).indexOf(this.currentStep.uuid)
-      },
-
-      firstStep(){
-        return this.orderedStepsAsc[0]
-      },
-      currentStep(){
-        return  this.orderedStepsAsc.find(
-          (s)=> s.uuid === this.$route.query.step
-        ) || this.firstStep
-      }
-    },
 
     watch: {
       'snippet.title':{
