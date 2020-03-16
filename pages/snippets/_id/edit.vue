@@ -61,7 +61,7 @@
           <add-step-button
             :snippet="snippet"
             :current-step="currentStep"
-            :position="'after'"
+            :position="'before'"
             @added="handleStepAdded"
           />
 
@@ -88,7 +88,7 @@
           <add-step-button
             :snippet="snippet"
             :current-step="currentStep"
-            position='before'
+            position='after'
             @added="handleStepAdded"
           />
 
