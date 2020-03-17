@@ -111,6 +111,23 @@
           />
         </div>
 
+        <div class="border-t-2 border-gray-300 pt-6 pb-6">
+          <h1 class="text-xl text-gray-600 mb-6 font-medium">
+            Publishing
+          </h1>
+          <div class="container text-gray-500 text-sm mb-6">
+
+            <template v-if="lastSaved">
+              Last saved at {{lastSaved}}
+            </template>
+            <template v-else>
+              No changes in this session yet
+            </template>
+
+
+          </div>
+        </div>
+
         <div class="text-gray-500 text-sm">
           Use
           <div class="inline-block px-2 leading-relaxed text-gray-600 rounded bg-gray-400 text-sm"> Ctrl</div>
@@ -123,6 +140,7 @@
       </div>
     </div>
 
+
   </div>
 </template>
 
@@ -134,6 +152,7 @@
   import BrouseSnippts from '@/mixins/snippets/BrouseSnippts'
   import AddStepButton from "./components/addStepButton";
   import deleteStepButton from "./components/deleteStepButton";
+  import moment from 'moment'
 
   export default {
 
@@ -150,7 +169,8 @@
     data() {
       return {
         snippet: null,
-        steps: []
+        steps: [],
+        lastSaved: null
       }
     },
     watch: {
@@ -159,6 +179,8 @@
           await this.$axios.$patch(`snippets/${this.snippet.uuid}`, {
             title
           })
+
+          this.touchLastSave()
         }, 500)
       },
 
@@ -169,6 +191,8 @@
             title: step.title,
             body: step.body
           })
+
+          this.touchLastSave()
         }, 500)
 
       }
@@ -183,25 +207,28 @@
       }
     },
     methods: {
-      handleStepDeleted(step){
+      touchLastSave() {
+        this.lastSaved = moment().format('h:mm:ss a');
+      },
+      handleStepDeleted(step) {
         let prevStep = this.prevStep;
 
         this.steps = this.steps.filter((s) => {
           return s.uuid !== step.uuid
         });
 
-        this.goToStep(prevStep|| this.firstStep)
+        this.goToStep(prevStep || this.firstStep)
       },
       handleStepAdded(step) {
         this.steps.push(step);
         this.goToStep(step)
       },
 
-      goToStep(step){
+      goToStep(step) {
 
         console.log(step);
         this.$router.push({
-          query:{step: step.uuid}
+          query: {step: step.uuid}
         })
       }
     },
