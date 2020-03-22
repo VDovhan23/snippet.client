@@ -70,7 +70,9 @@
         <div class="w-full lg:mx-2">
           <textarea class="w-full mb-6 border-dashed border-2 border-gray-400" v-model="currentStep.body"></textarea>
           <div class="bg-white p-8 rounded-lg text-gray-600 ">
-            Markdown content
+            <StepMarkdown
+              :value="currentStep.body"
+            />
           </div>
         </div>
 
@@ -152,6 +154,9 @@
   import BrouseSnippts from '@/mixins/snippets/BrouseSnippts'
   import AddStepButton from "./components/addStepButton";
   import deleteStepButton from "./components/deleteStepButton";
+
+  import StepMarkdown from "../../../components/Snippets/StepMarkdown";
+
   import moment from 'moment'
 
   export default {
@@ -159,7 +164,7 @@
     mixins: [
       BrouseSnippts
     ],
-    components: {AddStepButton, StepList, StepNavButton, deleteStepButton},
+    components: {AddStepButton, StepList, StepNavButton, deleteStepButton, StepMarkdown},
     head() {
       return {
         title: `Edit ${this.snippet.title || 'Untitled snippet'}`

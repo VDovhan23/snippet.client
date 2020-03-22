@@ -38,7 +38,7 @@
         </div>
 
         <div class="bg-white p-8 rounded-lg text-gray-600 w-full lg:mx-2">
-          {{currentStep.body}}
+          <StepMarkdown :value="currentStep.body"> </StepMarkdown>
         </div>
 
         <div class="order-first lg:flex-col lg:order-last flex flex-row">
@@ -86,6 +86,7 @@
 <script>
   import StepList from "./components/StepList";
   import StepNavButton from "./components/StepNavButton";
+  import StepMarkdown from "../../../components/Snippets/StepMarkdown";
 
   import BrouseSnippts from '@/mixins/snippets/BrouseSnippts'
 
@@ -95,7 +96,7 @@
       BrouseSnippts
     ],
     name: "index",
-    components: {StepList, StepNavButton},
+    components: {StepList, StepNavButton, StepMarkdown},
     data() {
       return {
         snippet: null,
