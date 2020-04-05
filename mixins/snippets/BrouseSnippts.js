@@ -45,6 +45,7 @@ export default {
             if (this.prevStep) {
               this.goToStep(this.prevStep)
             }
+
             break;
           case 'ctrl+shift+right':
             if (this.nextStep) {
