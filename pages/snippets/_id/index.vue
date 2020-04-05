@@ -51,7 +51,9 @@
             </svg>
           </StepNavButton>
 
-          <nuxt-link :to="{
+          <nuxt-link
+            v-if="snippet.user.data.owner"
+            :to="{
             name: 'snippets-id-edit',
             params: {id: snippet.uuid},
             query: {step: currentStep.uuid}
