@@ -1,5 +1,7 @@
 import {orderBy as _orderBy} from 'lodash'
 
+import hotkeys from 'hotkeys-js';
+
 export default {
   computed: {
     nextStep(){
@@ -35,4 +37,32 @@ export default {
       ) || this.firstStep
     }
   },
+  methods: {
+    registerKeybordPress() {
+      hotkeys('ctrl+shift+left, ctrl+shift+right', (event, handler) =>{
+        switch (handler.key) {
+          case 'ctrl+shift+left':
+            if (this.prevStep) {
+              this.goToStep(this.prevStep)
+            }
+            break;
+          case 'ctrl+shift+right':
+            if (this.nextStep) {
+              this.goToStep(this.nextStep)
+            }
+            break;
+        }
+      });
+    },
+    goToStep(step) {
+      this.$router.push({
+        query: {step: step.uuid}
+      })
+    }
+  },
+
+
+  mounted(){
+    this.registerKeybordPress()
+  }
 }

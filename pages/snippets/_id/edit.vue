@@ -253,13 +253,6 @@
         this.goToStep(step)
       },
 
-      goToStep(step) {
-
-        console.log(step);
-        this.$router.push({
-          query: {step: step.uuid}
-        })
-      }
     },
   }
 </script>
