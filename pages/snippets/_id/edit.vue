@@ -68,12 +68,10 @@
         </div>
 
         <div class="w-full lg:mx-2">
-          <textarea class="w-full mb-6 border-dashed border-2 border-gray-400" v-model="currentStep.body"></textarea>
-          <div class="bg-white p-8 rounded-lg text-gray-600 ">
-            <StepMarkdown
-              :value="currentStep.body"
-            />
-          </div>
+          <StepEditor
+            :step="currentStep"
+            v-model="currentStep.body"
+          ></StepEditor>
         </div>
 
         <div class="order-first lg:flex-col lg:order-last flex flex-row">
@@ -163,6 +161,7 @@
 
 <script>
   import {debounce as _debounce} from 'lodash'
+  import moment from 'moment'
   import StepList from "./components/StepList";
   import StepNavButton from "./components/StepNavButton";
 
@@ -170,16 +169,15 @@
   import AddStepButton from "./components/addStepButton";
   import deleteStepButton from "./components/deleteStepButton";
 
-  import StepMarkdown from "../../../components/Snippets/StepMarkdown";
 
-  import moment from 'moment'
+  import StepEditor from "./components/StepEditor";
 
   export default {
 
     mixins: [
       BrouseSnippts
     ],
-    components: {AddStepButton, StepList, StepNavButton, deleteStepButton, StepMarkdown},
+    components: {StepEditor, AddStepButton, StepList, StepNavButton, deleteStepButton},
     head() {
       return {
         title: `Edit ${this.snippet.title || 'Untitled snippet'}`

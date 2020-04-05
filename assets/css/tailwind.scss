@@ -1,7 +1,7 @@
 @import 'tailwindcss/base';
 @import "tailwindcss/components";
 @import 'tailwindcss/utilities';
-@import 'assets/css/vendor/hljs';
+
 
 
 body{
@@ -24,3 +24,10 @@ p{
 .container{
   @apply w-10/12 mx-auto;
 }
+
+
+@import 'assets/css/vendor/hljs';
+@import 'codemirror/lib/codemirror.css';
+
+
+
