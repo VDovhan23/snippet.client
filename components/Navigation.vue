@@ -19,14 +19,14 @@
 
           <li>
             <nuxt-link class="text-lg text-gray-700 lg:py-8 lg:px-4"
-                       :to="{name: 'index'}"
+                       :to="{name: 'browse'}"
             >
               Browse
             </nuxt-link>
           </li>
           <li>
             <nuxt-link class="text-lg text-gray-700 lg:py-8 lg:px-4"
-                       :to="{name: 'index'}"
+                       :to="{name: 'search'}"
             >Search
             </nuxt-link>
           </li>
