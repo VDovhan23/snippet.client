@@ -22,7 +22,7 @@ import SnippetCard from "../../../components/Snippets/SnippetCard";
       },
     },
     components: {SnippetCard},
-    name: "BrowseSnippetCard"
+    name: "DashboardSnippetCard"
   }
 </script>
 

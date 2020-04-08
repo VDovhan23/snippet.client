@@ -25,11 +25,11 @@
 
 <script>
   import BrowseSnippetCard from "./components/BrowseSnippetCard";
-  import BrouseSnippts from "../../mixins/snippets/BrouseSnippts";
+
 
   export default {
     name: "index",
-    components: {BrouseSnippts, BrowseSnippetCard},
+    components: {BrowseSnippetCard},
     data() {
       return {
         snippets: []
