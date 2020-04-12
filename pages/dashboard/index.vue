@@ -57,7 +57,11 @@
         snippets: []
       }
     },
-
+    head(){
+      return {
+        title: 'Dashboard',
+      }
+    },
     async asyncData({app}) {
       let snippets = await app.$axios.$get('snippets/me');
 

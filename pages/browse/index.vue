@@ -35,6 +35,12 @@
         snippets: []
       }
     },
+
+    head(){
+      return {
+        title: 'Browse',
+      }
+    },
     async asyncData({app}) {
       let snippets = await app.$axios.$get('snippets');
 
