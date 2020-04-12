@@ -21,6 +21,7 @@
         v-for="(snippet, index) in snippets"
         :key="index"
         :snippet="snippet"
+        @deleted="removeSnippet"
       />
     </div>
 
@@ -46,6 +47,9 @@
           .catch((error) => {
             console.log('error', error);
           });
+      },
+      removeSnippet(snippet){
+        this.snippets =  this.snippets.filter((s)=>s.uuid !== snippet.uuid  )
       }
     },
     data() {
