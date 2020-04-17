@@ -1,6 +1,8 @@
 import algoliasearch from 'algoliasearch/lite'
 import {createInstantSearch} from "vue-instantsearch";
 
+import {history} from 'instantsearch.js/es/lib/routers'
+
 export default ({app}, inject) => {
   const searchClient = algoliasearch(
     '781Q9SKBUD',
@@ -10,7 +12,10 @@ export default ({app}, inject) => {
 
   const {instantsearch} = createInstantSearch({
     searchClient,
-    indexName: 'snippets'
+    indexName: 'snippets',
+    routing:{
+      router: history()
+    }
   });
 
   inject('instantsearch', instantsearch)
