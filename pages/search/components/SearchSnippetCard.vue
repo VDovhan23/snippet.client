@@ -4,7 +4,9 @@
     :snippet="snippet"
   >
     <nuxt-link
-      :to="{}"
+      :to="{
+         name: 'author-id', params:{id: snippet.author.data.username}
+      }"
     >
       {{snippet.author.data.name}}
     </nuxt-link>
