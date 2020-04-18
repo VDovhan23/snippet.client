@@ -52,6 +52,9 @@
         this.snippets =  this.snippets.filter((s)=>s.uuid !== snippet.uuid  )
       }
     },
+    middleware:[
+      'auth'
+    ],
     data() {
       return {
         snippets: []

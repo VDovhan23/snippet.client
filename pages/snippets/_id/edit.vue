@@ -184,6 +184,9 @@
       }
     },
 
+    middleware:[
+      'auth'
+    ],
     data() {
       return {
         snippet: null,
