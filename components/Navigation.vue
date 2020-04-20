@@ -64,7 +64,7 @@
             </li>
             <li>
               <nuxt-link class="text-lg text-gray-700 lg:py-8 lg:px-4"
-                         :to="{name: 'index'}"
+                         :to="{name: 'auth-register'}"
               >Register
               </nuxt-link>
             </li>
