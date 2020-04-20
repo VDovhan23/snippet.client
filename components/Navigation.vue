@@ -43,7 +43,8 @@
             </li>
             <li>
               <nuxt-link class="text-lg text-gray-700 lg:py-8 lg:px-4"
-                         :to="{name: 'author-id'}"
+                         :to="{name: 'author-id', params:{id: $auth.user.username}}"
+
               >{{$auth.user.name}}
               </nuxt-link>
             </li>
