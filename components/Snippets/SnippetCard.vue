@@ -5,7 +5,7 @@
       <h1 class="leading-snug  text-xl">
 
         <nuxt-link
-          :to="'snippets/'+snippet.uuid"
+          :to="'/snippets/'+snippet.uuid"
           class="text-gray-600"
         >
           {{snippet.title || "Untitled"}}

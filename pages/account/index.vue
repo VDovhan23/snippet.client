@@ -91,7 +91,8 @@
       async submit() {
         try {
           await this.$axios.patch(`users/${this.$auth.user.username}`, this.form)
-          await this.$auth.fetchUser()
+          await this.$auth.fetchUser();
+          this.form.password = ''
         } catch (e) {
           this.validation = e.response.data.message;
         }

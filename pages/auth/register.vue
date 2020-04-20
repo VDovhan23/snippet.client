@@ -70,7 +70,11 @@
             </button>
           </div>
         </form>
+        <div class="text-center text-gray-600">
+          Already got account?
 
+          <nuxt-link :to="{name: 'auth-login'}"> Log in</nuxt-link>
+        </div>
       </div>
     </div>
 

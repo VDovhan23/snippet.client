@@ -38,7 +38,8 @@
       </form>
       <div class="text-center text-gray-600">
         No account?
-        <nuxt-link :to="{name: 'index'}"> Register</nuxt-link>
+
+        <nuxt-link :to="{name: 'auth-register'}"> Register</nuxt-link>
       </div>
     </div>
 
