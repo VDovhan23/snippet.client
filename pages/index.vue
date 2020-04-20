@@ -14,7 +14,7 @@
           <nuxt-link
             :to="{
               name: 'snippets-id',
-              params:{id: 'babeeac3-0f95-4bc2-8e86-7198bde4cfa1'}
+              params:{id: SNIPPET_EXAMPLE_UUID}
             }"
             class="inline-block text-lg py-3 px-5 bg-blue-500 text-white rounded-lg"
           >Example snippet &rarr;
@@ -27,11 +27,11 @@
       <h1 class="text-gray-600 text-xl font-medium mb-6">Latest snippets</h1>
 
 
-      <LatestSnippetCard
-        v-for="snippet in snippets"
-        :key="snippet.uuid"
-        :snippet="snippet"
-      />
+    <LatestSnippetCard
+      v-for="snippet in snippets"
+      :key="snippet.uuid"
+      :snippet="snippet"
+    />
     </div>
 
   </div>
@@ -45,18 +45,18 @@
     components: {
       LatestSnippetCard
     },
+    data() {
+      return {
+        snippets: [],
+        SNIPPET_EXAMPLE_UUID: process.env.SNIPPET_EXAMPLE_UUID
+      }
+    },
 
     async asyncData({app}) {
       let snippets = await app.$axios.$get('snippets?limit=10');
 
       return {
         snippets: snippets.data
-      }
-    },
-
-    data() {
-      return {
-        snippets: []
       }
     },
 
